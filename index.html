@@ -3,116 +3,131 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Treningsplanlegger – Barnefotball</title>
+  <title>Treningsplanlegger – Vaulen IL</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --green-pitch: #2a5c2a;
-      --green-light: #3d7a3d;
-      --green-pale: #eef5ee;
-      --yellow: #f5c518;
-      --yellow-pale: #fffbe6;
-      --blue: #1d6fa4;
-      --blue-pale: #e8f3fb;
-      --text: #1a1a1a;
-      --text-muted: #666;
-      --border: #e2e2e2;
-      --bg: #f7f7f5;
-      --white: #ffffff;
-      --radius: 10px;
-      --shadow: 0 1px 4px rgba(0,0,0,0.08);
+      --orange:       #E8520A;
+      --orange-dark:  #C44008;
+      --orange-pale:  #FEF0E9;
+      --black:        #1A1A1A;
+      --black-mid:    #2C2C2C;
+      --gray-dark:    #444;
+      --gray:         #888;
+      --gray-light:   #D4D4D4;
+      --bg:           #F5F5F3;
+      --white:        #FFFFFF;
+      --green-pitch:  #2A5C2A;
+      --green-mid:    #3A7A3A;
+      --green-light:  #C8E6C8;
+      --yellow:       #F5C518;
+      --yellow-pale:  #FFFBE6;
+      --blue:         #1D5FA4;
+      --blue-pale:    #E8F0FB;
+      --radius-sm:    6px;
+      --radius:       10px;
+      --radius-lg:    14px;
+      --shadow:       0 1px 4px rgba(0,0,0,0.09);
+      --shadow-md:    0 2px 10px rgba(0,0,0,0.12);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--black); min-height: 100vh; }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    /* HEADER */
+    /* ── HEADER ── */
     header {
-      background: var(--green-pitch);
-      color: white;
-      padding: 1.2rem 1.5rem;
+      background: var(--black);
+      color: var(--white);
+      padding: 0 1.5rem;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
+      height: 64px;
+      border-bottom: 3px solid var(--orange);
     }
-    header .logo {
+    .logo-mark {
+      width: 38px; height: 38px;
+      background: var(--orange);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .logo-text {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 26px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
       line-height: 1;
     }
-    header .logo span { color: var(--yellow); }
-    header .tagline {
-      font-size: 12px;
-      color: rgba(255,255,255,0.65);
+    .logo-text span { color: var(--orange); }
+    .logo-sub {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
       margin-top: 2px;
+      letter-spacing: 0.04em;
     }
-    header .ball { font-size: 28px; }
 
-    /* WEEK NAV */
+    /* ── WEEK BAR ── */
     .week-bar {
-      background: white;
-      border-bottom: 1px solid var(--border);
-      padding: 0.8rem 1.5rem;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-light);
+      padding: 0.75rem 1.5rem;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
     }
-    .week-bar .label {
+    .week-label {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 20px;
-      font-weight: 600;
-      color: var(--green-pitch);
-      min-width: 70px;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--black);
+      min-width: 72px;
     }
     .nav-btn {
       width: 34px; height: 34px;
       border-radius: 50%;
-      border: 1.5px solid var(--border);
-      background: white;
-      font-size: 16px;
+      border: 1.5px solid var(--gray-light);
+      background: var(--white);
+      font-size: 15px;
       cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      transition: background 0.15s;
+      color: var(--black);
+      transition: all 0.15s;
     }
-    .nav-btn:hover { background: var(--bg); }
+    .nav-btn:hover { border-color: var(--orange); color: var(--orange); }
+
     .shuffle-btn {
       margin-left: auto;
-      padding: 7px 16px;
+      padding: 8px 18px;
       border-radius: 20px;
-      border: 1.5px solid var(--green-pitch);
-      background: white;
-      color: var(--green-pitch);
+      border: none;
+      background: var(--orange);
+      color: var(--white);
       font-size: 13px;
-      font-weight: 500;
+      font-weight: 600;
       cursor: pointer;
       display: flex; align-items: center; gap: 6px;
-      transition: background 0.15s, color 0.15s;
+      transition: background 0.15s;
+      font-family: 'Inter', sans-serif;
     }
-    .shuffle-btn:hover { background: var(--green-pitch); color: white; }
+    .shuffle-btn:hover { background: var(--orange-dark); }
 
-    /* TIP */
+    /* ── TIP ── */
     .tip-bar {
-      background: var(--blue-pale);
-      border-left: 3px solid var(--blue);
+      background: var(--orange-pale);
+      border-left: 3px solid var(--orange);
       padding: 10px 1.5rem;
       font-size: 13px;
-      color: var(--blue);
+      color: var(--orange-dark);
     }
     .tip-bar strong { font-weight: 600; }
 
-    /* MAIN LAYOUT */
+    /* ── MAIN ── */
     .main {
-      max-width: 1000px;
+      max-width: 1040px;
       margin: 0 auto;
       padding: 1.5rem 1.5rem 3rem;
       display: grid;
@@ -120,167 +135,155 @@
       gap: 1.5rem;
       align-items: start;
     }
-    @media (max-width: 680px) {
+    @media (max-width: 700px) {
       .main { grid-template-columns: 1fr; }
     }
 
-    /* PITCH */
-    .pitch-wrap { position: relative; }
-    .pitch-label {
+    /* ── PITCH ── */
+    .pitch-section-label {
       font-size: 11px;
       font-weight: 600;
-      color: var(--text-muted);
+      color: var(--gray);
       text-transform: uppercase;
-      letter-spacing: 0.07em;
+      letter-spacing: 0.08em;
       margin-bottom: 8px;
     }
+    .legend {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .leg { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--gray-dark); }
+    .leg-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+
     .pitch {
       background: var(--green-pitch);
-      border-radius: var(--radius);
+      border-radius: var(--radius-lg);
       padding: 10px;
       aspect-ratio: 0.72;
       position: relative;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-md);
     }
     .pitch-inner {
-      border: 2px solid rgba(255,255,255,0.35);
+      border: 2px solid rgba(255,255,255,0.3);
       border-radius: 6px;
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       position: relative;
     }
     .p-midline {
-      position: absolute;
-      left: 0; right: 0;
-      top: 50%;
-      height: 1.5px;
-      background: rgba(255,255,255,0.25);
+      position: absolute; left: 0; right: 0; top: 50%;
+      height: 1.5px; background: rgba(255,255,255,0.2);
     }
     .p-circle {
       position: absolute;
       width: 50px; height: 50px;
-      border: 1.5px solid rgba(255,255,255,0.25);
+      border: 1.5px solid rgba(255,255,255,0.2);
       border-radius: 50%;
-      left: 50%; top: 50%;
-      transform: translate(-50%, -50%);
+      left: 50%; top: 50%; transform: translate(-50%,-50%);
     }
     .p-goal-top, .p-goal-bot {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 35%;
-      height: 9px;
-      border: 2px solid rgba(255,255,255,0.55);
+      position: absolute; left: 50%; transform: translateX(-50%);
+      width: 35%; height: 9px;
+      border: 2px solid rgba(255,255,255,0.5);
     }
     .p-goal-top { top: -2px; border-bottom: none; border-radius: 3px 3px 0 0; }
     .p-goal-bot { bottom: -2px; border-top: none; border-radius: 0 0 3px 3px; }
 
-    .st { /* stasjon marker */
+    .st {
       position: absolute;
       border-radius: 5px;
       padding: 3px 5px;
-      font-size: 9.5px;
-      font-weight: 600;
+      font-size: 9px;
+      font-weight: 700;
       text-align: center;
-      line-height: 1.25;
-      cursor: default;
+      line-height: 1.3;
       min-width: 44px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+      font-family: 'Inter', sans-serif;
     }
-    .st-static { background: #d4edda; color: #155724; }
-    .st-var    { background: var(--yellow); color: #3d2c00; border: 1.5px solid #c9a100; }
-    .st-binge  { background: #cce5ff; color: #004085; }
+    .st-static { background: var(--green-light); color: #1a4d1a; }
+    .st-var    { background: var(--orange); color: var(--white); }
+    .st-binge  { background: var(--blue-pale); color: var(--blue); border: 1.5px solid #93b8e0; }
 
-    /* STATION LIST */
+    /* ── STATION CARDS ── */
     .station-list { display: flex; flex-direction: column; gap: 10px; }
+
     .s-card {
-      background: white;
+      background: var(--white);
       border-radius: var(--radius);
-      border: 1px solid var(--border);
+      border: 1px solid var(--gray-light);
       padding: 13px 15px;
       box-shadow: var(--shadow);
     }
-    .s-card.is-var { border-color: #e0b800; border-width: 1.5px; }
-    .s-header { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+    .s-card.is-var { border-color: var(--orange); border-width: 1.5px; }
+
+    .s-header { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; flex-wrap: wrap; }
     .s-letter {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text-muted);
-      min-width: 18px;
+      font-size: 20px; font-weight: 800;
+      color: var(--gray);
+      min-width: 16px;
     }
+    .s-card.is-var .s-letter { color: var(--orange); }
+
     .badge {
-      font-size: 10px;
-      font-weight: 600;
-      padding: 2px 7px;
-      border-radius: 20px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
+      font-size: 10px; font-weight: 600;
+      padding: 2px 8px; border-radius: 20px;
+      text-transform: uppercase; letter-spacing: 0.04em;
     }
-    .badge-static { background: var(--green-pale); color: var(--green-pitch); }
-    .badge-var    { background: var(--yellow-pale); color: #7a5c00; border: 1px solid #f5c518; }
+    .badge-static { background: var(--green-light); color: #1a4d1a; }
+    .badge-var    { background: var(--orange-pale); color: var(--orange-dark); border: 1px solid var(--orange); }
     .badge-binge  { background: var(--blue-pale); color: var(--blue); }
-    .s-name { font-size: 14px; font-weight: 600; color: var(--text); }
-    .s-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.55; }
+
+    .s-name { font-size: 14px; font-weight: 600; color: var(--black); }
+    .s-desc { font-size: 12.5px; color: var(--gray-dark); line-height: 1.58; }
     .s-link {
-      display: inline-block;
-      margin-top: 6px;
-      font-size: 11.5px;
-      color: var(--blue);
-      text-decoration: none;
+      display: inline-block; margin-top: 6px;
+      font-size: 11.5px; color: var(--blue); text-decoration: none;
     }
     .s-link:hover { text-decoration: underline; }
 
-    /* LEGEND */
-    .legend {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
-    }
-    .leg {
-      display: flex;
-      align-items: center;
-      gap: 5px;
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black);
+      color: rgba(255,255,255,0.4);
+      text-align: center;
       font-size: 11.5px;
-      color: var(--text-muted);
+      padding: 16px;
+      border-top: 2px solid var(--orange);
     }
-    .leg-dot {
-      width: 13px; height: 13px;
-      border-radius: 3px;
-    }
+    footer a { color: var(--orange); text-decoration: none; }
   </style>
 </head>
 <body>
 
 <header>
-  <div class="ball">⚽</div>
+  <div class="logo-mark">⚽</div>
   <div>
-    <div class="logo">Trenings<span>plan</span></div>
-    <div class="tagline">Barnefotball · 6–7 år · Øvelser fra tiim.no</div>
+    <div class="logo-text">Vaulen <span>IL</span> Treningsplan</div>
+    <div class="logo-sub">Barnefotball · 6–7 år · Øvelser fra tiim.no</div>
   </div>
 </header>
 
 <div class="week-bar">
   <button class="nav-btn" onclick="changeWeek(-1)" title="Forrige uke">&#8592;</button>
-  <div class="label" id="weekLabel">Uke 1</div>
+  <div class="week-label" id="weekLabel">Uke 1</div>
   <button class="nav-btn" onclick="changeWeek(1)" title="Neste uke">&#8594;</button>
   <button class="shuffle-btn" onclick="randomizeAll()">&#x21BB; Ny variasjon</button>
 </div>
 
 <div class="tip-bar">
-  <strong>Treningsfokus:</strong> <span id="tipText"></span>
+  <strong>Treningsfokus denne uken:</strong> <span id="tipText"></span>
 </div>
 
 <div class="main">
 
   <!-- PITCH -->
-  <div class="pitch-wrap">
-    <div class="pitch-label">Baneoppsettet ditt</div>
+  <div>
+    <div class="pitch-section-label">Baneoppsettet</div>
     <div class="legend">
-      <div class="leg"><div class="leg-dot" style="background:#d4edda;border:1px solid #155724;"></div> Fast stasjon</div>
-      <div class="leg"><div class="leg-dot" style="background:var(--yellow);border:1px solid #c9a100;"></div> Varieres</div>
-      <div class="leg"><div class="leg-dot" style="background:#cce5ff;border:1px solid #004085;"></div> Ballbinge</div>
+      <div class="leg"><div class="leg-dot" style="background:#C8E6C8;border:1px solid #1a4d1a;"></div> Fast stasjon</div>
+      <div class="leg"><div class="leg-dot" style="background:#E8520A;"></div> Varieres</div>
+      <div class="leg"><div class="leg-dot" style="background:#E8F0FB;border:1px solid #93b8e0;"></div> Ballbinge</div>
     </div>
     <div class="pitch">
       <div class="pitch-inner">
@@ -288,74 +291,140 @@
         <div class="p-circle"></div>
         <div class="p-goal-top"></div>
         <div class="p-goal-bot"></div>
-
         <!-- Static -->
-        <div class="st st-static" style="bottom:4%;left:8%;">A<br>Dribling<br>+ scoring</div>
-        <div class="st st-binge"  style="bottom:38%;left:5%;">C<br>Spill<br>3v3/4v4</div>
-        <div class="st st-static" style="top:9%;left:9%;">D<br>Dribling<br>porter</div>
-        <div class="st st-static" style="top:2%;left:34%;">E<br>Laser</div>
-        <div class="st st-binge"  style="bottom:38%;right:5%;">G<br>Spill<br>3v3/4v4</div>
-
+        <div class="st st-static" style="bottom:4%;left:7%;">A<br>Dribling<br>+ scoring</div>
+        <div class="st st-binge"  style="bottom:38%;left:4%;">C<br>Spill<br>3v3/4v4</div>
+        <div class="st st-static" style="top:9%;left:8%;">D<br>Dribling<br>porter</div>
+        <div class="st st-static" style="top:2%;left:33%;">E<br>Laser</div>
+        <div class="st st-binge"  style="bottom:38%;right:4%;">G<br>Spill<br>3v3/4v4</div>
         <!-- Variable -->
-        <div class="st st-var" style="bottom:20%;left:8%;" id="pB">B<br><span id="pB-s">–</span></div>
-        <div class="st st-var" style="top:9%;right:9%;" id="pF">F<br><span id="pF-s">–</span></div>
-        <div class="st st-var" style="bottom:20%;right:8%;" id="pH">H<br><span id="pH-s">–</span></div>
+        <div class="st st-var" style="bottom:20%;left:7%;">B<br><span id="pB-s">–</span></div>
+        <div class="st st-var" style="top:9%;right:8%;">F<br><span id="pF-s">–</span></div>
+        <div class="st st-var" style="bottom:20%;right:7%;">H<br><span id="pH-s">–</span></div>
       </div>
     </div>
   </div>
 
   <!-- STATION LIST -->
-  <div>
-    <div class="station-list" id="stationList"></div>
-  </div>
+  <div class="station-list" id="stationList"></div>
 
 </div>
 
+<footer>
+  Vaulen IL Treningsplanlegger · Øvelser fra <a href="https://tiim.no/okter-og-ovelser" target="_blank">tiim.no</a>
+</footer>
+
 <script>
 const STATIC = {
-  A: { name:"Dribling gjennom port og scoring", desc:"Dribble gjennom kjegleport og avslutt med skudd på mål. Enkel og gjenkjennelig øvelse som barna kjenner godt.", badge:"static" },
-  C: { name:"Ballbinge 1 – Spill 3v3 / 4v4", desc:"Fri spill i ballbinge med vanlige regler. Fokus på glede, mye touch og ballbesittelse.", badge:"binge" },
-  D: { name:"Dribling gjennom porter", desc:"Dribble gjennom en rekke med kjegleporter. Varier avstand og retning mellom portene.", badge:"static" },
-  E: { name:"Laser", desc:"Barna fører ballen gjennom «laserstråler» (snorer/pinner) uten å berøre dem. Trener styrer vanskelighetsgrad.", badge:"static" },
-  G: { name:"Ballbinge 2 – Spill 3v3 / 4v4", desc:"Fri spill i ballbinge. Kan ha litt annen regel enn binge C – f.eks. fire mål eller touch-begrensning.", badge:"binge" },
+  A: { name:"Dribling gjennom port og scoring", desc:"Dribble gjennom en kjegleport og avslutt med skudd på mål. Enkel og gjenkjennelig øvelse barna kjenner godt.", link: null, badge:"static" },
+  C: { name:"Ballbinge 1 – Spill 3v3 / 4v4", desc:"Fri spill i ballbinge med vanlige regler. Fokus på glede, mye touch og balltid.", link: null, badge:"binge" },
+  D: { name:"Dribling gjennom porter", desc:"Dribble gjennom en rekke med kjegleporter. Varier avstand og retning mellom portene fra økt til økt.", link: null, badge:"static" },
+  E: { name:"Laser", desc:"Barna fører ballen gjennom «laserstråler» (snorer/pinner) uten å berøre dem. Trener styrer vanskelighetsgrad.", link: null, badge:"static" },
+  G: { name:"Ballbinge 2 – Spill 3v3 / 4v4", desc:"Fri spill i ballbinge. Varier spillform fra binge C – f.eks. fire mål, berøringsbegrensning eller joker.", link: null, badge:"binge" },
 };
 
 const VARIABLE = [
-  { name:"Rødt lys", desc:"Trener roper 'Grønt lys' (alle løper med ball) og 'Rødt lys' (alle stopper). Barna må stoppe ballen raskt med sålen.", link:null },
-  { name:"Stiv heks", desc:"Klassisk lek, men med ball på foten. Heksen gjør spillere stive – en frigjort spiller krabber mellom bena for å redde.", link:null },
-  { name:"Stjele-leken", desc:"Alle har ball og dribbler i et avgrenset område. Prøv å sparke andres ball ut, samtidig som du beskytter din egen.", link:"https://tiim.no/ovelse/ny-1-mot-1-gjenvinningskamp" },
-  { name:"1v1 med småmål", desc:"To spillere mot hverandre på lite område med småmål. Trener setter i gang med pasning. Rask utskifting.", link:"https://tiim.no/ovelse/1-vs-1-med-smamal" },
-  { name:"2 mot 1 – mot ett mål", desc:"To angripere mot én forsvarer + keeper. Ny duo inn med én gang det scores eller ballen går ut.", link:"https://tiim.no/ovelse/2-mot-1-mot-ett-mal" },
-  { name:"Vendingsstafett", desc:"Par på én ball. Før til kjegle, vend, tilbake. Varier vendingstype: såle, utside, innside.", link:"https://tiim.no/ovelse/vendingsstafett" },
-  { name:"Vaiana & Maui", desc:"Fangelek med ball. Maui-laget prøver å sparke bort ballene til Vaiana-laget. Stor suksess hos 6-åringer!", link:"https://tiim.no/ovelse/uefa-playmakers-vaiana-kapittel-4-ovelse-2" },
-  { name:"1v1 – porter på sidene", desc:"Score ved å føre ballen kontrollert gjennom en kjegleport. Fokus på dribbling og å komme forbi forsvareren.", link:"https://tiim.no/ovelse/1-mot-1-scoring-gjennom-porter-pa-sidene" },
-  { name:"Føring sikk-sakk + avslutning", desc:"Dribble sikk-sakk mellom kjegler, rund siste kjegle og skyt på mål. Kan kjøres som stafett.", link:"https://tiim.no/ovelse/foring-i-sikk-sakk-med-avslutning" },
+  {
+    name: "Rødt lys / Grønt lys",
+    desc: "Trener roper 'Grønt lys' (alle løper med ball) og 'Rødt lys' (alle stopper umiddelbart med sålen på ballen). Fokus: ballkontroll og reagere raskt.",
+    link: "https://tiim.no/ovelse/futsal-rodt-lys"
+  },
+  {
+    name: "Stiv heks",
+    desc: "Klassisk fangelek, men alle har ball på foten. Heksen gjør spillere stive – en frigjort spiller krabber mellom bena for å redde deg.",
+    link: null
+  },
+  {
+    name: "Stjele-leken",
+    desc: "Alle har ball og dribbler i avgrenset område. Prøv å sparke andres ball ut av sonen, og beskytt din egen. Ingen ball = spring ut og hent.",
+    link: "https://tiim.no/ovelse/ny-1-mot-1-gjenvinningskamp"
+  },
+  {
+    name: "Kontroll – jakt motstanderens ball",
+    desc: "Alle med ball i firkant. Spark vekk motstandernes baller og behold din. Mister du ballen, løp og hent og kom tilbake.",
+    link: "https://tiim.no/ovelse/kontroll-pa-egen-ball-jakte-motstanderens"
+  },
+  {
+    name: "1v1 med småmål",
+    desc: "To spillere mot hverandre på lite område med småmål i hver ende. Trener setter i gang med pasning til en av spillerne. Rask utskifting.",
+    link: "https://tiim.no/ovelse/1-vs-1-med-smamal"
+  },
+  {
+    name: "1 mot 1 i sirkel",
+    desc: "Fire mål i en sirkel, angripere i midten, forsvarere ved hvert mål. Angriperne forsøker å score på alle fire målene. Bytt roller på tid.",
+    link: "https://tiim.no/ovelse/ny-1-mot-1-i-sirkel"
+  },
+  {
+    name: "2 mot 1 – mot ett mål",
+    desc: "To angripere mot én forsvarer + keeper. Server inn ny ball med én gang det scores eller ballen går ut av spill.",
+    link: "https://tiim.no/ovelse/2-mot-1-mot-ett-mal"
+  },
+  {
+    name: "Vendingsstafett",
+    desc: "Par på én ball. Før til kjegle, vend, tilbake, vend, sent til makker. Varier vendingstype: såle, utside, innside.",
+    link: "https://tiim.no/ovelse/vendingsstafett"
+  },
+  {
+    name: "Vaiana & Maui",
+    desc: "Fangelek med ball. Maui-laget prøver å sparke bort Vaiana-lagets baller. Stor suksess hos 6-åringer! Bytt roller hvert 2. minutt.",
+    link: "https://tiim.no/ovelse/uefa-playmakers-vaiana-kapittel-4-ovelse-2"
+  },
+  {
+    name: "Robin Hood",
+    desc: "4 lag, 1 ball per lag. En spiller om gangen fører inn og skyter ned baller på hatter. Hold på til alle har skutt ned sin ball. Lagkonkurranse.",
+    link: "https://tiim.no/ovelse/robin-hood"
+  },
+  {
+    name: "Dribling gjennom boksen",
+    desc: "Firkant med vilkårlig plasserte kjegler. To rekker mot hverandre, en spiller fra hver side starter samtidig og fører ballen gjennom kjeglene til motsatt side.",
+    link: "https://tiim.no/ovelse/dribling-gjennom-boksen"
+  },
+  {
+    name: "1v1 – porter på sidene",
+    desc: "Score ved å føre ballen kontrollert gjennom en kjegleport på siden. Fokus på dribbling, finte og å komme forbi forsvareren.",
+    link: "https://tiim.no/ovelse/1-mot-1-scoring-gjennom-porter-pa-sidene"
+  },
+  {
+    name: "Føring sikk-sakk + avslutning",
+    desc: "To rekker mot hverandre. Sikk-sakk-løype til midten, rund kjegle, skudd på mål. Kan varieres med ulik løypelengde og som stafett.",
+    link: "https://tiim.no/ovelse/foring-i-sikk-sakk-med-avslutning"
+  },
+  {
+    name: "2v2 – fire mål (trener som joker)",
+    desc: "Spill 2v2 med fire småmål (to i hver ende). Trener er alltid med angrepslaget. Fokus: åpne rom og bruke medspiller.",
+    link: "https://tiim.no/ovelse/2-mot-2-med-fire-mal-trener-som-joker"
+  },
+  {
+    name: "2v2 med joker",
+    desc: "2v2 der én joker alltid spiller med angrepslaget. Kamper på 2 min. Taper bytter ut, venter på neste runde.",
+    link: "https://tiim.no/ovelse/2-vs-2-med-joker"
+  },
 ];
 
 const TIPS = [
   "Ballen tett på foten – mange små touch!",
   "Løft blikket og se hvem som er ledig!",
-  "Skyt med innsiden av foten – sikt først!",
-  "Press raskt når du mister ball!",
-  "Stopp ballen rolig inn – fart ut!",
+  "Skyt med innsiden av foten – sikt på mål først!",
+  "Press raskt tilbake når du mister ballen!",
+  "Stopp ballen rolig inn – eksplosiv fart ut!",
   "Tør å drible – prøv å gå forbi!",
   "Hjelp hverandre – trekk unna for å gi plass!",
-  "Hold kroppen mellom ball og motstander!",
+  "Hold kroppen mellom ballen og motstanderen!",
+  "Vend deg bort fra press – finn åpent rom!",
+  "Kommuniser – si fra til lagkamerat med og uten ball!",
 ];
 
 let week = 1;
 const picks = {};
 
-function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+function shuffle(a) { return [...a].sort(() => Math.random() - 0.5); }
 
 function pickForWeek(w) {
   const s = shuffle(VARIABLE);
   picks[w] = { B: s[0], F: s[1], H: s[2] };
 }
 
-function shortName(name) {
-  return name.split(' ').slice(0, 2).join(' ');
-}
+function shortName(n) { return n.split(' ').slice(0, 2).join(' '); }
 
 function changeWeek(d) {
   week = Math.max(1, Math.min(16, week + d));
@@ -369,7 +438,11 @@ function randomizeAll() {
 }
 
 function badgeHTML(type) {
-  const map = { static: ['badge-static','Fast'], var: ['badge-var','Varieres'], binge: ['badge-binge','Ballbinge'] };
+  const map = {
+    static: ['badge-static', 'Fast'],
+    var:    ['badge-var',    'Varieres'],
+    binge:  ['badge-binge',  'Ballbinge'],
+  };
   const [cls, label] = map[type] || map.static;
   return `<span class="badge ${cls}">${label}</span>`;
 }
@@ -384,13 +457,13 @@ function render() {
   document.getElementById('pH-s').textContent = shortName(p.H.name);
 
   const all = [
-    { id:'A', ...STATIC.A, badge:'static' },
+    { id:'A', ...STATIC.A },
     { id:'B', ...p.B, badge:'var' },
-    { id:'C', ...STATIC.C, badge:'binge' },
-    { id:'D', ...STATIC.D, badge:'static' },
-    { id:'E', ...STATIC.E, badge:'static' },
+    { id:'C', ...STATIC.C },
+    { id:'D', ...STATIC.D },
+    { id:'E', ...STATIC.E },
     { id:'F', ...p.F, badge:'var' },
-    { id:'G', ...STATIC.G, badge:'binge' },
+    { id:'G', ...STATIC.G },
     { id:'H', ...p.H, badge:'var' },
   ];
 
@@ -407,10 +480,8 @@ function render() {
   `).join('');
 }
 
-// Init all weeks so navigation feels instant
 for (let w = 1; w <= 16; w++) pickForWeek(w);
 render();
 </script>
-
 </body>
 </html>
