@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Treningsplanlegger – Barnefotball</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --green-pitch: #2a5c2a;
+      --green-light: #3d7a3d;
+      --green-pale: #eef5ee;
+      --yellow: #f5c518;
+      --yellow-pale: #fffbe6;
+      --blue: #1d6fa4;
+      --blue-pale: #e8f3fb;
+      --text: #1a1a1a;
+      --text-muted: #666;
+      --border: #e2e2e2;
+      --bg: #f7f7f5;
+      --white: #ffffff;
+      --radius: 10px;
+      --shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+      background: var(--green-pitch);
+      color: white;
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    header .logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+    header .logo span { color: var(--yellow); }
+    header .tagline {
+      font-size: 12px;
+      color: rgba(255,255,255,0.65);
+      margin-top: 2px;
+    }
+    header .ball { font-size: 28px; }
+
+    /* WEEK NAV */
+    .week-bar {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 0.8rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .week-bar .label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--green-pitch);
+      min-width: 70px;
+    }
+    .nav-btn {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      background: white;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+    }
+    .nav-btn:hover { background: var(--bg); }
+    .shuffle-btn {
+      margin-left: auto;
+      padding: 7px 16px;
+      border-radius: 20px;
+      border: 1.5px solid var(--green-pitch);
+      background: white;
+      color: var(--green-pitch);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex; align-items: center; gap: 6px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .shuffle-btn:hover { background: var(--green-pitch); color: white; }
+
+    /* TIP */
+    .tip-bar {
+      background: var(--blue-pale);
+      border-left: 3px solid var(--blue);
+      padding: 10px 1.5rem;
+      font-size: 13px;
+      color: var(--blue);
+    }
+    .tip-bar strong { font-weight: 600; }
+
+    /* MAIN LAYOUT */
+    .main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 1.5rem 1.5rem 3rem;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    @media (max-width: 680px) {
+      .main { grid-template-columns: 1fr; }
+    }
+
+    /* PITCH */
+    .pitch-wrap { position: relative; }
+    .pitch-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 8px;
+    }
+    .pitch {
+      background: var(--green-pitch);
+      border-radius: var(--radius);
+      padding: 10px;
+      aspect-ratio: 0.72;
+      position: relative;
+      box-shadow: var(--shadow);
+    }
+    .pitch-inner {
+      border: 2px solid rgba(255,255,255,0.35);
+      border-radius: 6px;
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    .p-midline {
+      position: absolute;
+      left: 0; right: 0;
+      top: 50%;
+      height: 1.5px;
+      background: rgba(255,255,255,0.25);
+    }
+    .p-circle {
+      position: absolute;
+      width: 50px; height: 50px;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      border-radius: 50%;
+      left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .p-goal-top, .p-goal-bot {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 35%;
+      height: 9px;
+      border: 2px solid rgba(255,255,255,0.55);
+    }
+    .p-goal-top { top: -2px; border-bottom: none; border-radius: 3px 3px 0 0; }
+    .p-goal-bot { bottom: -2px; border-top: none; border-radius: 0 0 3px 3px; }
+
+    .st { /* stasjon marker */
+      position: absolute;
+      border-radius: 5px;
+      padding: 3px 5px;
+      font-size: 9.5px;
+      font-weight: 600;
+      text-align: center;
+      line-height: 1.25;
+      cursor: default;
+      min-width: 44px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    }
+    .st-static { background: #d4edda; color: #155724; }
+    .st-var    { background: var(--yellow); color: #3d2c00; border: 1.5px solid #c9a100; }
+    .st-binge  { background: #cce5ff; color: #004085; }
+
+    /* STATION LIST */
+    .station-list { display: flex; flex-direction: column; gap: 10px; }
+    .s-card {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 13px 15px;
+      box-shadow: var(--shadow);
+    }
+    .s-card.is-var { border-color: #e0b800; border-width: 1.5px; }
+    .s-header { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+    .s-letter {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-muted);
+      min-width: 18px;
+    }
+    .badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .badge-static { background: var(--green-pale); color: var(--green-pitch); }
+    .badge-var    { background: var(--yellow-pale); color: #7a5c00; border: 1px solid #f5c518; }
+    .badge-binge  { background: var(--blue-pale); color: var(--blue); }
+    .s-name { font-size: 14px; font-weight: 600; color: var(--text); }
+    .s-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.55; }
+    .s-link {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 11.5px;
+      color: var(--blue);
+      text-decoration: none;
+    }
+    .s-link:hover { text-decoration: underline; }
+
+    /* LEGEND */
+    .legend {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .leg {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+    .leg-dot {
+      width: 13px; height: 13px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="ball">⚽</div>
+  <div>
+    <div class="logo">Trenings<span>plan</span></div>
+    <div class="tagline">Barnefotball · 6–7 år · Øvelser fra tiim.no</div>
+  </div>
+</header>
+
+<div class="week-bar">
+  <button class="nav-btn" onclick="changeWeek(-1)" title="Forrige uke">&#8592;</button>
+  <div class="label" id="weekLabel">Uke 1</div>
+  <button class="nav-btn" onclick="changeWeek(1)" title="Neste uke">&#8594;</button>
+  <button class="shuffle-btn" onclick="randomizeAll()">&#x21BB; Ny variasjon</button>
+</div>
+
+<div class="tip-bar">
+  <strong>Treningsfokus:</strong> <span id="tipText"></span>
+</div>
+
+<div class="main">
+
+  <!-- PITCH -->
+  <div class="pitch-wrap">
+    <div class="pitch-label">Baneoppsettet ditt</div>
+    <div class="legend">
+      <div class="leg"><div class="leg-dot" style="background:#d4edda;border:1px solid #155724;"></div> Fast stasjon</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--yellow);border:1px solid #c9a100;"></div> Varieres</div>
+      <div class="leg"><div class="leg-dot" style="background:#cce5ff;border:1px solid #004085;"></div> Ballbinge</div>
+    </div>
+    <div class="pitch">
+      <div class="pitch-inner">
+        <div class="p-midline"></div>
+        <div class="p-circle"></div>
+        <div class="p-goal-top"></div>
+        <div class="p-goal-bot"></div>
+
+        <!-- Static -->
+        <div class="st st-static" style="bottom:4%;left:8%;">A<br>Dribling<br>+ scoring</div>
+        <div class="st st-binge"  style="bottom:38%;left:5%;">C<br>Spill<br>3v3/4v4</div>
+        <div class="st st-static" style="top:9%;left:9%;">D<br>Dribling<br>porter</div>
+        <div class="st st-static" style="top:2%;left:34%;">E<br>Laser</div>
+        <div class="st st-binge"  style="bottom:38%;right:5%;">G<br>Spill<br>3v3/4v4</div>
+
+        <!-- Variable -->
+        <div class="st st-var" style="bottom:20%;left:8%;" id="pB">B<br><span id="pB-s">–</span></div>
+        <div class="st st-var" style="top:9%;right:9%;" id="pF">F<br><span id="pF-s">–</span></div>
+        <div class="st st-var" style="bottom:20%;right:8%;" id="pH">H<br><span id="pH-s">–</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATION LIST -->
+  <div>
+    <div class="station-list" id="stationList"></div>
+  </div>
+
+</div>
+
+<script>
+const STATIC = {
+  A: { name:"Dribling gjennom port og scoring", desc:"Dribble gjennom kjegleport og avslutt med skudd på mål. Enkel og gjenkjennelig øvelse som barna kjenner godt.", badge:"static" },
+  C: { name:"Ballbinge 1 – Spill 3v3 / 4v4", desc:"Fri spill i ballbinge med vanlige regler. Fokus på glede, mye touch og ballbesittelse.", badge:"binge" },
+  D: { name:"Dribling gjennom porter", desc:"Dribble gjennom en rekke med kjegleporter. Varier avstand og retning mellom portene.", badge:"static" },
+  E: { name:"Laser", desc:"Barna fører ballen gjennom «laserstråler» (snorer/pinner) uten å berøre dem. Trener styrer vanskelighetsgrad.", badge:"static" },
+  G: { name:"Ballbinge 2 – Spill 3v3 / 4v4", desc:"Fri spill i ballbinge. Kan ha litt annen regel enn binge C – f.eks. fire mål eller touch-begrensning.", badge:"binge" },
+};
+
+const VARIABLE = [
+  { name:"Rødt lys", desc:"Trener roper 'Grønt lys' (alle løper med ball) og 'Rødt lys' (alle stopper). Barna må stoppe ballen raskt med sålen.", link:null },
+  { name:"Stiv heks", desc:"Klassisk lek, men med ball på foten. Heksen gjør spillere stive – en frigjort spiller krabber mellom bena for å redde.", link:null },
+  { name:"Stjele-leken", desc:"Alle har ball og dribbler i et avgrenset område. Prøv å sparke andres ball ut, samtidig som du beskytter din egen.", link:"https://tiim.no/ovelse/ny-1-mot-1-gjenvinningskamp" },
+  { name:"1v1 med småmål", desc:"To spillere mot hverandre på lite område med småmål. Trener setter i gang med pasning. Rask utskifting.", link:"https://tiim.no/ovelse/1-vs-1-med-smamal" },
+  { name:"2 mot 1 – mot ett mål", desc:"To angripere mot én forsvarer + keeper. Ny duo inn med én gang det scores eller ballen går ut.", link:"https://tiim.no/ovelse/2-mot-1-mot-ett-mal" },
+  { name:"Vendingsstafett", desc:"Par på én ball. Før til kjegle, vend, tilbake. Varier vendingstype: såle, utside, innside.", link:"https://tiim.no/ovelse/vendingsstafett" },
+  { name:"Vaiana & Maui", desc:"Fangelek med ball. Maui-laget prøver å sparke bort ballene til Vaiana-laget. Stor suksess hos 6-åringer!", link:"https://tiim.no/ovelse/uefa-playmakers-vaiana-kapittel-4-ovelse-2" },
+  { name:"1v1 – porter på sidene", desc:"Score ved å føre ballen kontrollert gjennom en kjegleport. Fokus på dribbling og å komme forbi forsvareren.", link:"https://tiim.no/ovelse/1-mot-1-scoring-gjennom-porter-pa-sidene" },
+  { name:"Føring sikk-sakk + avslutning", desc:"Dribble sikk-sakk mellom kjegler, rund siste kjegle og skyt på mål. Kan kjøres som stafett.", link:"https://tiim.no/ovelse/foring-i-sikk-sakk-med-avslutning" },
+];
+
+const TIPS = [
+  "Ballen tett på foten – mange små touch!",
+  "Løft blikket og se hvem som er ledig!",
+  "Skyt med innsiden av foten – sikt først!",
+  "Press raskt når du mister ball!",
+  "Stopp ballen rolig inn – fart ut!",
+  "Tør å drible – prøv å gå forbi!",
+  "Hjelp hverandre – trekk unna for å gi plass!",
+  "Hold kroppen mellom ball og motstander!",
+];
+
+let week = 1;
+const picks = {};
+
+function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+
+function pickForWeek(w) {
+  const s = shuffle(VARIABLE);
+  picks[w] = { B: s[0], F: s[1], H: s[2] };
+}
+
+function shortName(name) {
+  return name.split(' ').slice(0, 2).join(' ');
+}
+
+function changeWeek(d) {
+  week = Math.max(1, Math.min(16, week + d));
+  if (!picks[week]) pickForWeek(week);
+  render();
+}
+
+function randomizeAll() {
+  pickForWeek(week);
+  render();
+}
+
+function badgeHTML(type) {
+  const map = { static: ['badge-static','Fast'], var: ['badge-var','Varieres'], binge: ['badge-binge','Ballbinge'] };
+  const [cls, label] = map[type] || map.static;
+  return `<span class="badge ${cls}">${label}</span>`;
+}
+
+function render() {
+  document.getElementById('weekLabel').textContent = 'Uke ' + week;
+  document.getElementById('tipText').textContent = TIPS[(week - 1) % TIPS.length];
+
+  const p = picks[week];
+  document.getElementById('pB-s').textContent = shortName(p.B.name);
+  document.getElementById('pF-s').textContent = shortName(p.F.name);
+  document.getElementById('pH-s').textContent = shortName(p.H.name);
+
+  const all = [
+    { id:'A', ...STATIC.A, badge:'static' },
+    { id:'B', ...p.B, badge:'var' },
+    { id:'C', ...STATIC.C, badge:'binge' },
+    { id:'D', ...STATIC.D, badge:'static' },
+    { id:'E', ...STATIC.E, badge:'static' },
+    { id:'F', ...p.F, badge:'var' },
+    { id:'G', ...STATIC.G, badge:'binge' },
+    { id:'H', ...p.H, badge:'var' },
+  ];
+
+  document.getElementById('stationList').innerHTML = all.map(s => `
+    <div class="s-card ${s.badge === 'var' ? 'is-var' : ''}">
+      <div class="s-header">
+        <span class="s-letter">${s.id}</span>
+        ${badgeHTML(s.badge)}
+        <span class="s-name">${s.name}</span>
+      </div>
+      <div class="s-desc">${s.desc}</div>
+      ${s.link ? `<a class="s-link" href="${s.link}" target="_blank">&#x2197; Les mer på tiim.no</a>` : ''}
+    </div>
+  `).join('');
+}
+
+// Init all weeks so navigation feels instant
+for (let w = 1; w <= 16; w++) pickForWeek(w);
+render();
+</script>
+
+</body>
+</html>
